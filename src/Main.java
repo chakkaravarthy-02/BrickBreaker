@@ -31,9 +31,7 @@ public class Main{
                     int[] ballPos = brickBreaker.getBallPosition();
                     brickBreaker.initializeMoves(ballPos[0], ballPos[1], -1, 1);
                 }
-                default -> {
-                    System.out.println("Enter valid direction");
-                }
+                default -> System.out.println("Enter valid direction");
             }
         }
     }

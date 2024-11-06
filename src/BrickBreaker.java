@@ -10,7 +10,7 @@ public class BrickBreaker {
     public static int ballLife = 5;
     private static int[] ballPosition = null;
     private static String[][] gameBoard = null;
-    private static Map<Integer, Integer> brickLifeMap = new HashMap<>();
+    private static final Map<Integer, Integer> brickLifeMap = new HashMap<>();
 
     private static int length;
 
