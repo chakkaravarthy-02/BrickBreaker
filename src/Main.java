@@ -11,13 +11,17 @@ public class Main{
         Scanner scanner = new Scanner(System.in);
 
         while(true){
+            brickBreaker.printBoard();
             if(BrickBreaker.ballLife == 0){
                 System.out.println("Ball life over");
                 System.exit(0);
             }
-            brickBreaker.printBoard();
+            if(brickBreaker.checkTheBrickLife()){
+                System.out.println("Congrats!!!");
+                System.exit(0);
+            }
             System.out.println("Enter the direction: ");
-            String direction = scanner.nextLine();
+            String direction = scanner.next();
             switch (direction){
                 case "st" -> {
                     int[] ballPos = brickBreaker.getBallPosition();

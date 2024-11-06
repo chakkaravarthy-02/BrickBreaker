@@ -2,35 +2,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BrickBreaker {
-    private static final String wall = "w ";
-    private static final String ball = "o ";
-    private static final String ground = "g ";
-    private static final String brick = "1 ";
+    private static final String wall = "w";
+    private static final String ball = "o";
+    private static final String ground = "g";
+    private static final String brick = "1";
 
-    public static int ballLife = 5;
+    public static int ballLife = 6;
     private static int[] ballPosition = null;
     private static String[][] gameBoard = null;
-    private static final Map<Integer, Integer> brickLifeMap = new HashMap<>();
+    private static Map<Integer, Integer> brickLifeMap = new HashMap<>();
 
     private static int length;
 
     BrickBreaker(int row, int col) {
         gameBoard = new String[row][col];
         length = gameBoard.length;
-        prepareBoard(row, col);
+        prepareBoard();
         gameBoard[row - 1][col / 2] = ball;
         ballPosition = new int[]{row - 1, col / 2};
     }
 
-    private void prepareBoard(int row, int col) {
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (i == 0 || j == 0 || j == col - 1) {
-                    gameBoard[i][j] = wall;
-                } else if (i == row - 1) {
-                    gameBoard[i][j] = ground;
+    private void prepareBoard() {
+        for (int row = 0; row < gameBoard.length; row++) {
+            for (int col = 0; col < gameBoard[0].length; col++) {
+                if (row == 0 || col == 0 || col == gameBoard[0].length - 1) {
+                    gameBoard[row][col] = wall;
+                } else if (row == gameBoard.length - 1) {
+                    gameBoard[row][col] = ground;
                 } else {
-                    gameBoard[i][j] = "  ";
+                    gameBoard[row][col] = " ";
                 }
             }
         }
@@ -49,7 +49,7 @@ public class BrickBreaker {
     public void printBoard() {
         for (String[] games : gameBoard) {
             for (String game : games) {
-                System.out.print(game);
+                System.out.print(game+" ");
             }
             System.out.println();
         }
@@ -63,7 +63,7 @@ public class BrickBreaker {
     }
 
     private void moveTheBall(int ballRow, int ballCol, int rowDirection, int colDirection) {
-        while (gameBoard[ballRow][ballCol].equals(wall)) {
+        while (!gameBoard[ballRow][ballCol].equals(wall)) {
             if (gameBoard[ballRow][ballCol].equals(brick)) {
                 ballGoesDown(ballRow, ballCol);
                 return;
@@ -105,12 +105,12 @@ public class BrickBreaker {
         if (gameBoard[ballRow][ballCol].equals(brick)) {
             reduceBrickAndBallLife(ballRow, ballCol);
             if (brickLifeMap.get(getExactPosition(ballRow, ballCol)) == 0) {
-                gameBoard[ballRow][ballCol] = "  ";
+                gameBoard[ballRow][ballCol] = " ";
             }
         } else {
             gameBoard[ballRow][ballCol] = ball;
             printBoard();
-            gameBoard[ballRow][ballCol] = "  ";
+            gameBoard[ballRow][ballCol] = " ";
             sleepForOneSec();
         }
     }
@@ -132,5 +132,14 @@ public class BrickBreaker {
 
     public int[] getBallPosition() {
         return ballPosition;
+    }
+
+    public boolean checkTheBrickLife() {
+        for(int value: brickLifeMap.values()){
+            if(value>0){
+                return false;
+            }
+        }
+        return true;
     }
 }
